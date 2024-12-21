@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Tableau de bord du fournisseur : {{ suppliers[supplier_id].name }}</h2>
+<div class="d-flex align-items-center mb-4">
+  <img src="{{ suppliers[supplier_id].image }}" alt="Fournisseur" 
+       style="width:120px;height:auto;margin-right:10px;">
+  <div>
+    <p>Note :
+      {% for i in range(5) %}
+        {% if i < suppliers[supplier_id].rating|round(0,'floor') %}
+          <span class="star">★</span>
+        {% else %}
+          <span class="star">☆</span>
+        {% endif %}
+      {% endfor %}
+    </p>
+  </div>
+</div>
+
+{% if supplier_requests %}
+  <h3>Demandes en attente</h3>
+  {% for rid, req in supplier_requests.items() %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Demande #{{ rid }}</h5>
+        <p>Produit : {{ products[req.product_id].name }}</p>
+        <p>Durée : {{ req.days }} jours</p>
+        <p>Client : {{ req.user }} (Indice confiance : {{ users[req.user].trust_index }})</p>
+        <form method="POST" class="d-inline">
+          <input type="hidden" name="rental_id" value="{{ rid }}">
+          <button type="submit" name="action" value="accept" class="btn btn-success">Accepter</button>
+          <button type="submit" name="action" value="refuse" class="btn btn-danger">Refuser</button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>Aucune demande en attente pour le moment.</p>
+{% endif %}
+{% endblock %}

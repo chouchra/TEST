@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+<head><title>Confirmer la location</title></head>
+<body>
+<h1>Confirmer la location du produit {{ product.name }}</h1>
+<p>Durée: {{ rental.days }} jours</p>
+<form method="POST">
+  <input type="submit" name="action" value="confirm">
+  <input type="submit" name="action" value="cancel" value="Annuler">
+</form>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+{% set r = rentals[rental_id] %}
+{% set product = products[r.product_id] %}
+<h2>Confirmer la location du produit : {{ product.name }}</h2>
+<p>Durée : {{ r.days }} jours</p>
+<form method="POST" class="col-md-4">
+  <button type="submit" name="action" value="confirm" class="btn btn-success">Confirmer</button>
+  <button type="submit" name="action" value="cancel" class="btn btn-secondary">Annuler</button>
+</form>
+{% endblock %}

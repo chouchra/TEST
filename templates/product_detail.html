@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+{% set product = products[product_id] %}
+<div class="row">
+  <div class="col-md-6">
+    <img src="{{ product.image }}" alt="{{ product.name }}" class="img-fluid mb-3">
+  </div>
+  <div class="col-md-6">
+    <h2>{{ product.name }}</h2>
+    <p>Prix/jour : {{ product.daily_price }} €</p>
+    <p>Note moyenne :
+      {% for i in range(5) %}
+        {% if i < product.avg_rating_product|round(0,'floor') %}
+          <span class="star">★</span>
+        {% else %}
+          <span class="star">☆</span>
+        {% endif %}
+      {% endfor %}
+    </p>
+
+    {% if session.user and users[session.user].trust_index > 0 %}
+      <a href="{{ url_for('request_rental', product_id=product_id) }}" class="btn btn-success">Louer ce produit</a>
+    {% else %}
+      <p class="text-danger">Vous devez être connecté avec un indice de confiance > 0 pour louer.</p>
+    {% endif %}
+  </div>
+</div>
+<hr>
+<div>
+  <h4>Informations sur le fournisseur</h4>
+  {% set sid = product.supplier_id %}
+  {% set supp = suppliers[sid] %}
+  <div class="d-flex align-items-center">
+    <img src="{{ supp.image }}" alt="{{ supp.name }}" style="width:100px;height:auto;margin-right:10px;">
+    <div>
+      <strong>{{ supp.name }}</strong>
+      <p>Note du fournisseur :
+        {% for i in range(5) %}
+          {% if i < supp.rating|round(0,'floor') %}
+            <span class="star">★</span>
+          {% else %}
+            <span class="star">☆</span>
+          {% endif %}
+        {% endfor %}
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Liste des produits</h2>
+<div class="row">
+  {% for pid, p in products.items() %}
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <img src="{{ p.image }}" class="card-img-top" alt="{{ p.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ p.name }}</h5>
+          <p>Prix/jour: {{ p.daily_price }} €</p>
+          <p>Note moyenne:
+            {% for i in range(5) %}
+              {% if i < p.avg_rating_product|round(0,'floor') %}
+                <span class="star">★</span>
+              {% else %}
+                <span class="star">☆</span>
+              {% endif %}
+            {% endfor %}
+          </p>
+          <a href="{{ url_for('product_detail', product_id=pid) }}" class="btn btn-primary">Détails</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

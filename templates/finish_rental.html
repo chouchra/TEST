@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+{% set r = rentals[rental_id] %}
+{% set product = products[r.product_id] %}
+<h2>Terminer la location #{{ rental_id }}</h2>
+<p>Produit : {{ product.name }}</p>
+<p>Client : {{ r.user }} (Indice confiance : {{ users[r.user].trust_index }})</p>
+
+<form method="POST" class="col-md-4">
+  <div class="mb-3">
+    <label>État du produit (good/bad) :</label>
+    <input type="text" name="product_condition" class="form-control" value="good">
+  </div>
+  <div class="mb-3">
+    <label>Note du produit (0 à 5) :</label>
+    <input type="number" name="product_rating" class="form-control" min="0" max="5">
+  </div>
+  <div class="mb-3">
+    <label>Note du fournisseur (0 à 5) :</label>
+    <input type="number" name="supplier_rating" class="form-control" min="0" max="5">
+  </div>
+  <button type="submit" class="btn btn-primary">Terminer la location</button>
+</form>
+{% endblock %}

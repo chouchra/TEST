@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+{% set product = products[product_id] %}
+<h2>Demande de location : {{ product.name }}</h2>
+<form method="POST" class="col-md-4">
+  <div class="mb-3">
+    <label>Nombre de jours :</label>
+    <input type="number" name="days" class="form-control" value="1">
+  </div>
+  <div class="mb-3">
+    <label>Choisissez un fournisseur :</label>
+    <select name="supplier_id" class="form-select">
+      {% for sid, s in suppliers.items() %}
+        <option value="{{ sid }}">{{ s.name }} (Note: {{ s.rating }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+</form>
+{% endblock %}
